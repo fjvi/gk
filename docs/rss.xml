@@ -1,10 +1,510 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MGTnote</title><link>/gk</link><description>My good time-我的好时光！</description><copyright>MGTnote</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>../favicon.ico</url><title>avatar</title><link>/gk</link></image><lastBuildDate>Wed, 12 Mar 2025 16:13:02 +0000</lastBuildDate><managingEditor>MGTnote</managingEditor><ttl>60</ttl><webMaster>MGTnote</webMaster><item><title>Gmeek构建网站（进阶篇）</title><link>/gk/post/Gmeek-gou-jian-wang-zhan-%EF%BC%88-jin-jie-pian-%EF%BC%89.html</link><description># 一、主题配置 👀 
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MGTnote</title><link>https://mgta.dpdns.org/</link><description>My good time-我的好时光！</description><copyright>MGTnote</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>../avatar.svg</url><title>avatar</title><link>https://mgta.dpdns.org/</link></image><lastBuildDate>Thu, 03 Apr 2025 11:14:44 +0000</lastBuildDate><managingEditor>MGTnote</managingEditor><ttl>60</ttl><webMaster>MGTnote</webMaster><item><title>Gmeek构建网站（进阶篇）</title><link>https://mgta.dpdns.org//post/Gmeek-gou-jian-wang-zhan-%EF%BC%88-jin-jie-pian-%EF%BC%89.html</link><description># 一、主题配置 👀 
 
 ### 1. 手动模式（默认）
-这种模式就是当访问者第一次打开博客页面时，呈现的是亮主题。</description><guid isPermaLink="true">/gk/post/Gmeek-gou-jian-wang-zhan-%EF%BC%88-jin-jie-pian-%EF%BC%89.html</guid><pubDate>Wed, 12 Mar 2025 08:32:27 +0000</pubDate></item><item><title>Gmeek快速上手【基础篇】</title><link>/gk/post/Gmeek-kuai-su-shang-shou-%E3%80%90-ji-chu-pian-%E3%80%91.html</link><description>Gmeek快速上手
+这种模式就是当访问者第一次打开博客页面时，呈现的是亮主题。
+访问者可以通过页面右上角的按钮随意切换（亮/暗/跟随系统），当切换过后，会自动在浏览器存储目前的选择，之后访问者用同一浏览器再打开博客任何页面，则自动为上次选择的模式。
+```
+'themeMode':'manual',
+'dayTheme':'light',
+'nightTheme':'dark',
+```
+
+### 2. 固定模式
+```
+'themeMode':'fix',    定义固定
+'dayTheme':'light',   定义固定的主题，`light`则永远为亮主题，`dark`则永远为暗主题，用户无法切换
+'nightTheme':'github-light',    定义`utterances`评论框的永久固定主题。
+```
+
+#### 2.1. 固定亮主题
+```
+'themeMode':'fix',
+'dayTheme':'light',
+'nightTheme':'github-light',
+```
+#### 2.2. 固定暗主题
+```
+'themeMode':'fix',
+'dayTheme':'dark',
+'nightTheme':'dark-blue',
+```
+&gt; [!TIP]
+&gt; 主题设置可以查看[github官方](https://github.com/settings/appearance)支持的主题
+&gt; 亮主题：`light` `light_high_contrast` `light_colorblind ` `light_tritanopia `
+&gt; 暗主题：`dark` `dark_high_contrast` `dark_colorblind` `dark_tritanopia` `dark_dimmed`
+
+&gt; [!TIP]
+&gt; [utterances](https://utteranc.es/)评论框的主题选择有：
+&gt; 亮主题：`github-light` `boxy-light` `preferred-color-scheme`
+&gt; 暗主题：`github-dark` `github-dark-orange` `icy-dark` `dark-blue` `photon-dark` `gruvbox-dark`
+
+
+
+
+# 二、右上角的按钮配置 👀 
+在首页上部的右侧有一些按钮，配置方式如下：
+
+### 1. 站内链接
+例如[关于页面](https://grapehut.us.kg/about.html)和[友情链接](https://grapehut.us.kg/link.html)
+
+#### 1.1. 添加config.json配置
+```
+'singlePage':['about'],
+```
+#### 1.2. 添加一个Labels标签为`about`，在你的issue里面写一个文章，然后配置Labels为`about`即可。
+#### 1.3. 手动全局生成一次。
+
+&gt; [!IMPORTANT]
+&gt; `about`标签只可以添加给唯一一篇issue
+&gt; 如果有多个`singlePage`，可以这样定义`'singlePage':['link','about'],`
+&gt; `about`和`link`这两个图标的SVG是内置的无需定义`iconList`，其他则需要自己定义
+
+
+### 2. 站外链接
+如果你的`about`页面是站外的，或者想定义其他的站外链接，例如[music](https://music.meekdai.com/)。下面以添加music页面按钮为示例。
+
+#### 2.1. 添加config.json配置
+此处`iconList`自定义了图标的SVG，`exlink`定义了外部链接的地址
+```
+'iconList':{'music':'M12.7 0.9L7.3 0.9C6 0.9 4.9 2 4.9 3.3L4.9 10.1C4.5 9.9 4.1 9.8 3.6 9.8C2.1 9.8 0.9 11 0.9 12.4C0.9 13.9 2.1 15.1 3.6 15.1C5 15.1 6.2 13.9 6.2 12.4L6.2 3.3C6.2 2.7 6.7 2.2 7.3 2.2L12.7 2.2C13.3 2.2 13.8 2.7 13.8 3.3L13.8 7.5C13.4 7.3 12.9 7.1 12.4 7.1C11 7.1 9.8 8.3 9.8 9.8C9.8 11.2 11 12.4 12.4 12.4C13.9 12.4 15.1 11.2 15.1 9.8L15.1 3.3C15.1 2 14 0.9 12.7 0.9ZM3.6 13.8C2.8 13.8 2.2 13.2 2.2 12.4C2.2 11.7 2.8 11.1 3.6 11.1C4.3 11.1 4.9 11.7 4.9 12.4C4.9 13.2 4.3 13.8 3.6 13.8ZM12.4 11.1C11.7 11.1 11.1 10.5 11.1 9.8C11.1 9 11.7 8.4 12.4 8.4C13.2 8.4 13.8 9 13.8 9.8C13.8 10.5 13.2 11.1 12.4 11.1ZM12.4 11.1'},
+'exlink':{'music':'https://music.meekdai.com'},
+```
+#### 2.2. 手动全局生成一次。
+
+
+### 3. SVG图标格式
+使用`iconList`自定义SVG图标必须是`16px`大小的，建议使用github的[Octicons 图标](https://primer.style/foundations/icons/#16px)
+
+Octicons图标链接：https://primer.style/foundations/icons/#16px
+大佬自己转换的Octicons图标path列表：https://gist.github.com/Meekdai/f6375fe2740428af39d90f1afa678fdc
+
+
+
+
+
+# 三、提示标签 👀 
+Github的语法里面有5种警报强调信息，分别是`NOTE` `TIP` `IMPORTANT` `WARNING` `CAUTION` 
+在写文章的时候，适当使用可以提高文章的可读性
+
+### 使用方式：
+```
+&gt; [!NOTE]
+&gt; Useful information that users should know, even when skimming content.
+
+&gt; [!TIP]
+&gt; Helpful advice for doing things better or more easily.
+
+&gt; [!IMPORTANT]
+&gt; Key information users need to know to achieve their goal.
+
+&gt; [!WARNING]
+&gt; Urgent info that needs immediate user attention to avoid problems.
+
+&gt; [!CAUTION]
+&gt; Advises about risks or negative outcomes of certain actions.
+```
+
+### 效果：
+&gt; [!NOTE]
+&gt; Useful information that users should know, even when skimming content.
+
+&gt; [!TIP]
+&gt; Helpful advice for doing things better or more easily.
+
+&gt; [!IMPORTANT]
+&gt; Key information users need to know to achieve their goal.
+
+&gt; [!WARNING]
+&gt; Urgent info that needs immediate user attention to avoid problems.
+
+&gt; [!CAUTION]
+&gt; Advises about risks or negative outcomes of certain actions.
+
+
+# 四、折叠显示 👀 
+### 使用方式：
+```
+&lt;details&gt;
+    &lt;summary&gt;展开&lt;/summary&gt;
+    &lt;pre&gt;&lt;code&gt;
+    # 这里空一行，下面开始写代码
+    # 在这里写折叠的代码
+    # 最后这两行结束标签一定要顶格写且不能接在代码后面！！！
+    &lt;/code&gt;&lt;/pre&gt;
+&lt;/details&gt;
+```
+### 效果：
+&lt;details&gt;
+    &lt;summary&gt;展开&lt;/summary&gt;
+    &lt;pre&gt;&lt;code&gt;
+    # 这里空一行，下面开始写代码
+    # 在这里写折叠的代码
+    # 最后这两行结束标签一定要顶格写且不能接在代码后面！！！
+    &lt;/code&gt;&lt;/pre&gt;
+&lt;/details&gt;
+
+
+
+
+# 五、文章插入html标签 👀 
+Github由于安全考虑，是不允许使用`iframe`等标签的，而且在issues插入的图片也会自动转换为github的地址。
+为了文章的多样性，在Gmeek的`v2.19`版本中添加了支持html标签的功能。
+
+### 使用方式：
+在需要添加html标签的位置使用`code`方式，并且后面紧跟着Gmeek-html，然后才是html标签。
+
+#### 1. 图片
+`Gmeek-html&lt;img src='https://picsum.photos/400'&gt;`
+```
+`Gmeek-html&lt;img src='https://picsum.photos/400'&gt;`
+```
+
+#### 2. 内嵌框架iframe-网站
+`Gmeek-html&lt;iframe style='border-radius:12px' src='https://music.meekdai.com/#35' width='100%' height='150px' frameborder='0' allowfullscreen='true'&gt;&lt;/iframe&gt;`
+```
+`Gmeek-html&lt;iframe style='border-radius:12px' src='https://music.meekdai.com/#35' width='100%' height='150px' frameborder='0' allowfullscreen='true'&gt;&lt;/iframe&gt;`
+```
+
+#### 3. 内嵌框架iframe-音乐
+`Gmeek-html&lt;iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/0U3fV7K4WFfVRgLGEAKh3g?utm_source=generator' width='100%' height='100' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'&gt;&lt;/iframe&gt;`
+```
+`Gmeek-html&lt;iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/0U3fV7K4WFfVRgLGEAKh3g?utm_source=generator' width='100%' height='100' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'&gt;&lt;/iframe&gt;`
+```
+
+#### 4. 内嵌框架iframe-视频
+`Gmeek-html&lt;iframe style='border-radius:12px' src='//player.bilibili.com/player.html?isOutside=true&amp;aid=1604800941&amp;bvid=BV1qm421M7Xs&amp;cid=1557311907&amp;p=1&amp;autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true' width='100%' height='200px'&gt;&lt;/iframe&gt;`
+```
+`Gmeek-html&lt;iframe style='border-radius:12px' src='//player.bilibili.com/player.html?isOutside=true&amp;aid=1604800941&amp;bvid=BV1qm421M7Xs&amp;cid=1557311907&amp;p=1&amp;autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true' width='100%' height='200px'&gt;&lt;/iframe&gt;`
+```
+
+
+`Gmeek-html&lt;iframe style='border-radius:12px' width='100%' height='200px' src='https://www.youtube.com/embed/RzYO_cGqrAY?si=qO64_ABMM0jyvNUi' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen&gt;&lt;/iframe&gt;`
+```
+`Gmeek-html&lt;iframe style='border-radius:12px' width='100%' height='200px'  src='https://www.youtube.com/embed/RzYO_cGqrAY?si=qO64_ABMM0jyvNUi' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen&gt;&lt;/iframe&gt;`
+```
+
+
+#### 5. 其他
+上面仅仅是示例了一些常用的html标签，其他html标签同样也支持，可以尝试添加到自己的文章中。 
+
+
+
+
+
+
+# 六、static文件夹使用 👀 
+如果需要在docs文件内上传一些自己的文件，比如图片、js、css等，所以在`v2.20`版本添加了这个功能。
+
+### 使用方式：
+1. 在自己的仓库根目录下新建一个文件夹，名称必须是`static`。
+2. 然后在`static`文件内上传一些自己的文件，比如`avatar.svg`文件。
+3. 通过手动全局生成一次成功后，你就可以通过 xxx.github.io/avatar.svg 访问了。
+
+&gt; [!TIP]
+&gt;在全局生成的时候，Actions会自动把`static`文件夹的所有内容拷贝到`docs`文件夹内。方便用户把docs当成一个目录部署到CF等其他服务器中。
+
+
+
+
+# 七、插件 👀 
+为了使得Gmeek的功能更加的丰富，添加了插件功能，目前已经有几个插件可以使用。
+
+### 1. Vercount浏览计数`GmeekVercount.js`
+全站添加，只需要在config.json文件内添加配置
+```
+'allHead':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'&gt;&lt;/script&gt;',
+```
+单个文章页添加，只需要在文章最后一行添加如下
+```
+&lt;!-- ##{'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+### 2, TOC目录`GmeekTOC.js`
+全站添加，只需要在config.json文件内添加配置
+```
+'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'&gt;&lt;/script&gt;',
+```
+单个文章页添加，只需要在文章最后一行添加如下
+```
+&lt;!-- ##{'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+### 3. ArticleTOC目录`articletoc.js`
+本插件由[Tiengming](https://code.buxiantang.top/)编写，也是一个非常不错的TOC目录插件。配置方式和上面一样，只需要替换地址为如下地址即可。
+```
+https://blog.meekdai.com/Gmeek/plugins/articletoc.js
+```
+
+### 4. 灯箱插件`lightbox.js`
+本插件由[Tiengming](https://code.buxiantang.top/)编写，可以放大浏览文章中的图片，适合一些图片较多的文章。
+
+全站添加，只需要在config.json文件内添加配置
+```
+'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'&gt;&lt;/script&gt;',
+```
+单个文章页添加，只需要在文章最后一行添加如下
+```
+&lt;!-- ##{'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+### 5. 多插件使用
+
+全站添加，所有文章页使用`TOC目录`和`灯箱插件`，需要这样添加配置文件：
+```
+'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'&gt;&lt;/script&gt;&lt;script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'&gt;&lt;/script&gt;',
+```
+单个文章页添加，单个文章使用`TOC目录`和`灯箱插件`，需要这样添加配置文件：
+```
+&lt;!-- ##{'script':'&lt;script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'&gt;&lt;/script&gt;&lt;script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+&gt; [!CAUTION]
+&gt; 需要特别注意区分`script` `head` `allHead` 等这些键的用途
+
+I. 单篇文章自定义参数，自定义单篇文章页面的`style`和`script`
+```html
+&lt;!-- ##{'style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;'}## --&gt;
+```
+```html
+&lt;!-- ##{'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+II. 单篇文章多种自定义参数，可同时一起添加多种自定义参数：  
+```html
+&lt;!-- ##{'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;','style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;','timestamp':1490764800}## --&gt;
+```
+
+III. 全局文章自定义参数，添加全局文章页面的`style`和`script`，在`config.json`文件中添加
+```javascript
+'style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;',
+'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;',
+```
+
+
+
+# 八、其他设置 👀 
+
+### 1. 导入以前的文章 
+如需修改发布时间，可以在文章最后一行添加如下代码。里面的时间是采用时间戳的形式，可以用如下[时间形式转换网站](https://tool.lu/timestamp)转换。  
+```html
+&lt;!-- ##{'timestamp':1490764800}## --&gt;
+&lt;!-- ##{'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;','style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;','timestamp':1490764800}## --&gt;
+```
+
+### 2. 置顶博客文章
+只需要`Pin issue`后，手动全局生成一次即可。
+
+### 3. 删除文章
+只需要`Close issue`或者`Delete issue`后，再手动全局生成一次即可。
+
+
+$$$$$$$</description><guid isPermaLink="true">https://mgta.dpdns.org//post/Gmeek-gou-jian-wang-zhan-%EF%BC%88-jin-jie-pian-%EF%BC%89.html</guid><pubDate>Wed, 12 Mar 2025 08:32:27 +0000</pubDate></item><item><title>Gmeek快速上手【基础篇】</title><link>https://mgta.dpdns.org//post/Gmeek-kuai-su-shang-shou-%E3%80%90-ji-chu-pian-%E3%80%91.html</link><description>Gmeek快速上手
 ==========
 
 [](https://blog.meekdai.com/ '首页')[](https://github.com/Meekdai/meekdai.github.io/issues/39 'Issue')[](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html '切换主题')
 
-[Gmeek](https://github.com/Meekdai/Gmeek) 一个博客框架，超轻量级个人博客模板，完全基于`Github Pages` 、 `Github Issues` 和 `Github Actions`，可以称作`All in Github`。</description><guid isPermaLink="true">/gk/post/Gmeek-kuai-su-shang-shou-%E3%80%90-ji-chu-pian-%E3%80%91.html</guid><pubDate>Wed, 12 Mar 2025 08:25:16 +0000</pubDate></item><item><title>about</title><link>/gk/about.html</link><description>`Gmeek-html&lt;iframe id='contentFrame' src='https://fjvi.github.io/sq/' frameborder='0' style='border: none;' width='100%'  height='1080px' &gt;&lt;/iframe&gt;`。</description><guid isPermaLink="true">/gk/about.html</guid><pubDate>Wed, 12 Mar 2025 04:46:17 +0000</pubDate></item></channel></rss>
+[Gmeek](https://github.com/Meekdai/Gmeek) 一个博客框架，超轻量级个人博客模板，完全基于`Github Pages` 、 `Github Issues` 和 `Github Actions`，可以称作`All in Github`。不需要本地部署，从搭建到写作，只需要18秒，2步搭建好博客，第3步就是写作。
+
+一、安装
+----
+
+Important
+
+安装及其简单，但是也要认真看下面的步骤，一步一步来。
+
+1.  【创建仓库】点击[通过模板创建仓库](https://github.com/new?template_name=Gmeek-template&amp;template_owner=Meekdai)，建议仓库名称为`XXX.github.io`，其中`XXX`为你的github用户名。
+    
+2.  【启用Pages】在仓库的设置`Settings`中`Pages-&gt;Build and deployment-&gt;Source`下面选择`Github Actions`。
+    
+3.  【开始写作】打开一篇issue，开始写作，并且**必须**添加一个`标签Label`（至少添加一个），再保存issue后会自动创建博客内容，片刻后可通过[https://XXX.github.io](https://xxx.github.io/) 访问（可进入Actions页面查看构建进度）。
+    
+4.  【手动全局生成】这个步骤只有在修改`config.json` 文件或者出现奇怪问题的时候，需要执行。
+    
+
+```p4
+通过Actions-&gt;build Gmeek-&gt;Run workflow-&gt;里面的按钮全局重新生成一次
+```
+
+Note
+
+网友制作的视频教程：[https://www.bilibili.com/video/BV1GM4m1m7ZD/](https://www.bilibili.com/video/BV1GM4m1m7ZD/)
+
+二、配置文件
+------
+
+Tip
+
+按照安装步骤成功搭建好后，就可以阅读下面的内容修改配置文件啦。  
+注意修改配置文件后一定要手动全局生成一次，不然会报错。  
+如果对`json`格式不熟悉，建议先简单学习一下。
+
+`config.json` 文件就是配置文件，在创建的仓库内可以找到，对应修改为自己的即可。
+
+```js
+{
+    'title':'Meekdai',
+    'subTitle':'童话是一种生活态度，仅此而已。',
+    'avatarUrl':'https://github.githubassets.com/favicons/favicon.svg',
+    'GMEEK_VERSION':'last'
+}
+```
+
+以上是必须的字段，下面是可以自定义字段的描述，可以选择加入到`config.json`中。
+
+```js
+'displayTitle':'Meekdai',
+'homeUrl':'http://blog.meekdai.com',
+'faviconUrl':'https://github.githubassets.com/favicons/favicon.svg',
+'email':'meekdai@163.com',
+'startSite':'02/16/2015',
+'filingNum':'浙ICP备20023628号',
+'onePageListNum':15,
+'singlePage':['about'],
+'iconList':{'music':'M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z'},
+'exlink':{'music':'https://music.meekdai.com'},
+'commentLabelColor':'#006b75',
+'yearColorList':['#bc4c00', '#0969da', '#1f883d', '#A333D0'],
+'i18n':'CN',
+'UTC':8,
+'themeMode':'manual',
+'dayTheme':'light',
+'nightTheme':'dark_colorblind',
+'urlMode':'pinyin',
+'style':'',
+'script':'',
+'head':'',
+'allHead':'',
+'indexStyle':'',
+'indexScript':'',
+'showPostSource':1,
+'rssSplit':'sentence',
+'bottomText':'转载请注明出处',
+'ogImage':'https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg',
+'primerCSS':'&lt;link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' /&gt;',
+'needComment':0,
+```
+
+Caution
+
+最后一行配置末尾不需要逗号，其他行末尾都需要逗号（英文逗号）
+
+| **配置参数** | **说明** |
+| --- | --- |
+| title | 【必填】博客标题 |
+| subTitle | 【必填】博客描述&amp;自述 |
+| avatarUrl | 【必填】博客头像 |
+| GMEEK\_VERSION | 【必填】Gmeek版本，一般写`last`也可以用具体tag版本 |
+| displayTitle | 用于头像后面的标题展示，如果和`title`一致则不用添加 |
+| homeUrl | 博客的主页地址，自定义域名时需要配置 |
+| faviconUrl | 页面的favicon地址，如果和avatarUrl一致则不用添加 |
+| email | 用于自动提交仓库时用，不添加也可以 |
+| startSite | 用于页面底部显示网站运行天数 |
+| filingNum | 用于页面底部显示备案信息 |
+| onePageListNum | 用于首页每页展示的文章数量 |
+| singlePage | 自定义独立页面，例如`about`或者`link`等 |
+| iconList | 用于定义singlePage按钮展示的[SVG图标](https://primer.style/foundations/icons/#16px) (16px)，`about`和`link`内置无需定义 |
+| exlink | 用于自定义首页右上角圆形按钮到外部链接功能，按钮图标定义在iconList中 |
+| commentLabelColor | 用于自定义显示评论数量标签的颜色 |
+| yearColorList | 用于自定义显示不同年份标签的颜色 |
+| i18n | 用于定义博客语言，目前支持`EN`/`CN`/`RU` |
+| UTC | 用于定义[时区](https://en.wikipedia.org/wiki/List_of_UTC_offsets) |
+| themeMode | 用于定义主题模式，默认为`manual`，也可选择`fix`[详细说明](https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-liang-an-zhu-ti-pei-zhi-fang-shi.html) |
+| dayTheme | 用于定义[亮主题](https://github.com/settings/appearance) |
+| nightTheme | 用于定义[暗主题](https://github.com/settings/appearance) |
+| urlMode | 用于定义文章链接生成模式，目前支持`pinyin`/`issue`/`ru_translit` |
+| style | 用于自定义文章页CSS |
+| script | 用于自定义文章页JavaScript |
+| head | 用于自定义文章页head内容 |
+| allHead | 用于自定义所有页面head内容 |
+| indexStyle | 用于自定义首页CSS |
+| indexScript | 用于自定义首页JavaScript |
+| showPostSource | 设置为1则在文章页显示issue链接按钮，设置为0则不显示 |
+| rssSplit | 设置RSS输出的截断符号，默认`sentence`为第一句话，可配置其他特殊符号 |
+| bottomText | 用于设置文章页面右下角显示的内容 |
+| ogImage | 用于设置Open Graph协议展示的图片 |
+| primerCSS | 用于设置primer.css的CDN地址，默认使用[南科大](https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css) |
+| needComment | 用于设置是否需要评论功能，1开启评论，0关闭 |
+
+三、常见问题
+------
+
+### 1\. 搭建不成功
+
+多半是没有按照安装步骤来，其实搭建就这2步，不要自己乱点乱设置，就不会有问题。
+
+*   案例一：[Meekdai/Gmeek#14](https://github.com/Meekdai/Gmeek/issues/14)
+*   案例二：[Meekdai/Gmeek#18](https://github.com/Meekdai/Gmeek/issues/18)
+*   案例二：[Meekdai/Gmeek#20](https://github.com/Meekdai/Gmeek/issues/20)
+
+### 2\. Actions执行失败
+
+修改了`config.json`配置文件后，需要全局生成。另外`label`标签没有打会出现这个问题。  
+建议通过Actions-&gt;build Gmeek-&gt;Run workflow-&gt;里面的按钮全局重新生成一次
+
+*   案例一：[Meekdai/Gmeek#1](https://github.com/Meekdai/Gmeek/issues/1)
+*   案例二：[Meekdai/Gmeek#10](https://github.com/Meekdai/Gmeek/issues/10)
+
+### 3\. 导入以前的文章
+
+如需修改发布时间，可以在文章最后一行添加如下代码。里面的时间是采用时间戳的形式，可以用如下[网站](https://tool.lu/timestamp)转换。
+
+```html
+&lt;!-- ##{'timestamp':1490764800}## --&gt;
+```
+
+### 4\. 自定义单篇文章参数
+
+自定义单篇文章页面的`style`和`script`
+
+```html
+&lt;!-- ##{'style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;'}## --&gt;
+```
+
+```html
+&lt;!-- ##{'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;'}## --&gt;
+```
+
+### 5\. 多种自定义参数
+
+可同时一起添加多种自定义参数：
+
+```html
+&lt;!-- ##{'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;','style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;','timestamp':1490764800}## --&gt;
+```
+
+### 6\. 自定义全局文章参数
+
+添加全局文章页面的`style`和`script`，在`config.json`文件中添加
+
+```js
+'style':'&lt;style&gt;#postBody{font-size:20px}&lt;/style&gt;',
+'script':'&lt;script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'&gt;&lt;/script&gt;',
+```
+
+### 7\. 置顶博客文章
+
+只需要`Pin issue`后，手动全局生成一次即可。
+
+### 8\. utteranc报错
+
+如果在评论里面登录后评论报错，可直接按照提示安装`utteranc app`即可
+
+```
+Error: utterances is not installed on xxx/xxx.github.io. If you own this repo, install the app. Read more about this change in the PR.
+
+```
+
+### 9\. 删除文章
+
+只需要`Close issue`或者`Delete issue`后，再手动全局生成一次即可。
+
+四、进阶教程
+------
+
+Gmeek的可定制化功能非常高，下面的链接是一些更加高级的设置教程，还有插件的使用等。  
+[https://meekdai.github.io/tag.html#Gmeek](https://meekdai.github.io/tag.html#Gmeek)
+
+❤️ 转载文章请注明出处
+
+$$$$$$$</description><guid isPermaLink="true">https://mgta.dpdns.org//post/Gmeek-kuai-su-shang-shou-%E3%80%90-ji-chu-pian-%E3%80%91.html</guid><pubDate>Wed, 12 Mar 2025 08:25:16 +0000</pubDate></item><item><title>about</title><link>https://mgta.dpdns.org//about.html</link><description>`Gmeek-html&lt;iframe id='contentFrame' src='https://fjvi.github.io/sq/' frameborder='0' style='border: none;' width='100%'  height='1080px' &gt;&lt;/iframe&gt;`$$$$$$$</description><guid isPermaLink="true">https://mgta.dpdns.org//about.html</guid><pubDate>Wed, 12 Mar 2025 04:46:17 +0000</pubDate></item></channel></rss>
